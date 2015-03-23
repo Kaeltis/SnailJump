@@ -98,7 +98,7 @@ function create() {
 function update() {
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
-    player.body.velocity.x = 0;
+    player.body.velocity.x = hozMove / 2;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 600)
