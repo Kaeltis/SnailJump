@@ -15,6 +15,11 @@ function preload() {
     game.load.image('background', 'assets/bg.png');
 
     game.load.atlasJSONHash('character', 'assets/character.png', 'assets/character.json');
+    game.load.audio('backgroundMusic',['assets/mshanty-town.OGG']);
+    game.load.audio('gameoverMusic',['assets/mgame-over.OGG']);
+    game.load.audio('dieMusic',['assets/msplash.OGG']);
+    game.load.audio('jumpMusic',['assets/mjump.OGG']);
+    game.load.audio('startMusic',['assets/mgame-start.OGG']);
 }
 
 var map;
@@ -34,6 +39,12 @@ function create() {
     //Background
     game.stage.backgroundColor = '#FFFFFF';
     game.add.tileSprite(0, 0, 2000, 600, 'background');
+    backgroundMusic = game.add.audio('backgroundMusic');
+    backgroundMusic.play('');
+    gameoverMusic = game.add.audio('gameoverMusic');
+    dieMusic = game.add.audio('dieMusic');
+    jumpMusic = game.add.audio('jumpMusic');
+    startMusic = game.add.audio('startMusic');
 
     //Physik
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -132,6 +143,7 @@ function update() {
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
         player.body.velocity.y = vertMove;
         jumpTimer = game.time.now + 650;
+        jumpMusic.play();
     }
 }
 
