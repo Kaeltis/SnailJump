@@ -46,6 +46,7 @@ var scoreMult = 1;
 var scoreText;
 var lives = 3;
 var hearts = [];
+var speedMult = 1;
 
 function create() {
     //Background
@@ -126,15 +127,16 @@ function create() {
 function update() {
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
-    player.body.velocity.x = hozMove / 4;
+    player.body.velocity.x = (hozMove / 4) * speedMult;
+    player.body.gravity.y = 160 * speedMult;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 600) {
-        cameraPosX += 2.5;
+        cameraPosX += 2.5 * speedMult;
         scoreMult = 3;
     }
     else {
-        cameraPosX += 0.5;
+        cameraPosX += 0.5 * speedMult;
         scoreMult = 1;
     }
 
@@ -146,6 +148,7 @@ function update() {
         player.body.x = 150;
         player.body.y = 393;
         score += 1000;
+        speedMult++;
     }
 
     if (!player.inCamera) {
@@ -166,11 +169,11 @@ function update() {
 
     // Controls
     if (cursors.left.isDown) {
-        player.body.velocity.x = -hozMove;
+        player.body.velocity.x = -hozMove * speedMult;
         player.animations.play('walk', 30);
     }
     else if (cursors.right.isDown) {
-        player.body.velocity.x = hozMove;
+        player.body.velocity.x = hozMove * speedMult;
         player.animations.play('walk', 30);
     }
     else {
@@ -178,7 +181,7 @@ function update() {
     }
 
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
-        player.body.velocity.y = vertMove;
+        player.body.velocity.y = vertMove * speedMult;
         jumpTimer = game.time.now + 650;
         jumpMusic.play();
     }
