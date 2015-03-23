@@ -20,12 +20,12 @@ function preload() {
 var map;
 var layer;
 var player;
-var facing = "left";
 var cursors;
 var jumpButton;
 var hozMove = 160; // walk
 var vertMove = -180; // jump
 var jumpTimer = 0;
+var cameraPosX;
 
 function create() {
     //Background
@@ -71,7 +71,8 @@ function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     // Set Camera
-    game.camera.x = player.body.x - 150;
+    cameraPosX = player.body.x - 150;
+    game.camera.x = cameraPosX;
     game.camera.y = player.body.y;
 }
 
@@ -81,8 +82,12 @@ function update() {
     player.body.velocity.x = 10;
 
     // Update Camera
+    if (game.camera.x <= player.body.x - 600)
+        cameraPosX += 2;
+
     game.camera.y = player.body.y;
-    game.camera.x = game.time.now / 100;
+    game.camera.x = cameraPosX++;
+
     if (!player.inCamera) {
         playerOOC();
     }
@@ -107,6 +112,6 @@ function update() {
 }
 
 function playerOOC() {
-    alert("Player OOC!");
+    alert("Game Over!");
     location.reload();
 }
