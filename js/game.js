@@ -33,9 +33,10 @@ function preload() {
 var map;
 var layer;
 var player;
-var deathwall;
 var cursors;
 var jumpButton;
+var debugButton;
+var debug = false;
 var hozMove = 160; // walk
 var vertMove = -240; // jump
 var jumpTimer = 0;
@@ -99,6 +100,7 @@ function create() {
     // Controls
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    debugButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
 
     // Set Camera
     cameraPosX = player.body.x - 250;
@@ -140,7 +142,7 @@ function update() {
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX;
 
-    if (player.body.x >= 4300) {
+    if (player.body.x >= 3950) {
         game.camera.x = cameraPosX = 0;
         player.body.x = 150;
         player.body.y = 393;
@@ -182,11 +184,17 @@ function update() {
         jumpTimer = game.time.now + 400;
         jumpMusic.play();
     }
+
+    if (debugButton.isDown) {
+        debug = true;
+    }
 }
 
 function render() {
-    game.debug.bodyInfo(player, 50, 480, '#ff0044');
-    //game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
+    if (debug) {
+        game.debug.bodyInfo(player, 50, 480, '#ff0044');
+        game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
+    }
 }
 
 function gameOver(score) {
