@@ -173,6 +173,7 @@ function render() {
 }
 
 function gameOver(score) {
+    dieMusic.play();
     alert("Game Over!");
     if (getCookie('highscore') < score) {
         name = prompt("Neuer Highscore!\nBitte Namen eingeben:", "");
