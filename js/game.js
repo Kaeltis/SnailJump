@@ -112,7 +112,7 @@ function create() {
 
 function update() {
     // Check collisions & Move player forward
-    game.physics.arcade.collide(player, layerLevel);
+    game.physics.arcade.collide(player, layer);
     player.body.velocity.x = (hozMove / 4) * speedMult;
     player.body.gravity.y = 300;
 
