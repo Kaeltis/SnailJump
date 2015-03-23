@@ -130,7 +130,7 @@ function update() {
     player.body.gravity.y = 300;
 
     // Update Camera
-    if (game.camera.x <= player.body.x - 600) {
+    if (game.camera.x <= player.body.x - 250) {
         cameraPosX += 2.5 * speedMult;
         scoreMult = 3;
     }
