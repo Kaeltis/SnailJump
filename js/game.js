@@ -38,7 +38,7 @@ var deathwall;
 var cursors;
 var jumpButton;
 var hozMove = 160; // walk
-var vertMove = -180; // jump
+var vertMove = -220; // jump
 var jumpTimer = 0;
 var cameraPosX;
 var score = 0;
@@ -128,7 +128,7 @@ function update() {
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
     player.body.velocity.x = (hozMove / 4) * speedMult;
-    player.body.gravity.y = 160;
+    player.body.gravity.y = 300;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 600) {
@@ -148,7 +148,7 @@ function update() {
         player.body.x = 150;
         player.body.y = 393;
         score += 1000;
-        speedMult++;
+        speedMult = speedMult < 2 ? speedMult + 0.2 : speedMult;
     }
 
     if (!player.inCamera) {
@@ -156,7 +156,8 @@ function update() {
 
         if (lives <= 0)
             gameOver(game.time.now);
-        else {
+        else
+        {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
@@ -182,22 +183,26 @@ function update() {
 
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
         player.body.velocity.y = vertMove;
-        jumpTimer = game.time.now + 650;
+        jumpTimer = game.time.now + 400;
         jumpMusic.play();
     }
 }
 
-function render() {
+function render()
+{
     //game.debug.bodyInfo(player, 50, 480, '#ff0044');
     game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
 }
 
-function gameOver(score) {
+function gameOver(score)
+{
     dieMusic.play();
     gameoverMusic.play();
 
     alert("Game Over!");
-    if (getCookie('highscore') < score) {
+
+    if (getCookie('highscore') < score)
+    {
         name = prompt("Neuer Highscore!\nBitte Namen eingeben:", "");
         setCookie('highscorename', name, 365);
         setCookie('highscore', score, 365);
