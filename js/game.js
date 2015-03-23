@@ -79,7 +79,7 @@ function create() {
 function update() {
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
-    player.body.velocity.x = 10;
+    player.body.velocity.x = 0;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 600)
@@ -89,7 +89,7 @@ function update() {
     game.camera.x = cameraPosX++;
 
     if (!player.inCamera) {
-        playerOOC();
+        gameOver(game.time.now);
     }
 
 
@@ -111,7 +111,31 @@ function update() {
     }
 }
 
-function playerOOC() {
+function gameOver(score) {
     alert("Game Over!");
+    if (getCookie('highscore') < score) {
+        name = prompt("Neuer Highscore!\nBitte Namen eingeben:", "");
+        setCookie('highscorename', name, 365);
+        setCookie('highscore', score, 365);
+    }
+
     location.reload();
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
 }
