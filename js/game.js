@@ -51,7 +51,7 @@ var speedMult = 1;
 function create() {
     //Background
     game.stage.backgroundColor = '#FFFFFF';
-    game.add.tileSprite(0, 0, 2000, 600, 'background');
+    game.add.tileSprite(0, 0, 10000, 600, 'background');
 
     //Music
     backgroundMusic = game.add.audio('backgroundMusic');
