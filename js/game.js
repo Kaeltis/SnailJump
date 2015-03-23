@@ -128,7 +128,7 @@ function update() {
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
     player.body.velocity.x = (hozMove / 4) * speedMult;
-    player.body.gravity.y = 160 * speedMult;
+    player.body.gravity.y = 160;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 600) {
@@ -181,7 +181,7 @@ function update() {
     }
 
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
-        player.body.velocity.y = vertMove * speedMult;
+        player.body.velocity.y = vertMove;
         jumpTimer = game.time.now + 650;
         jumpMusic.play();
     }
