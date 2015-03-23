@@ -186,7 +186,7 @@ function update() {
 
 function render() {
     //game.debug.bodyInfo(player, 50, 480, '#ff0044');
-    //game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
+    game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
 }
 
 function gameOver(score) {
