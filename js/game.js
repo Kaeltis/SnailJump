@@ -14,6 +14,9 @@ function preload() {
     game.load.image('level', 'assets/level.png');
     game.load.image('background', 'assets/bg.png');
 
+    game.load.image("tree", "assets/tree.png");
+    game.load.image("heart", "assets/heart.png");
+
     game.load.atlasJSONHash('character', 'assets/character.png', 'assets/character.json');
     game.load.audio('backgroundMusic',['assets/mshanty-town.OGG']);
     game.load.audio('gameoverMusic',['assets/mgame-over.OGG']);
@@ -34,6 +37,7 @@ var cameraPosX;
 var scoreText;
 var lives = 3;
 var livesText;
+var hearts = [];
 
 function create() {
     //Background
@@ -89,21 +93,14 @@ function create() {
     game.camera.x = cameraPosX;
     game.camera.y = player.body.y;
 
-    //Score Text
-    scoreText = game.add.text(game.camera.width / 1.2, 40, "0 Punkte", {
-        font: "25px Arial",
-        fill: "#ff0044"
-    });
-    scoreText.anchor.setTo(0.5, 0.5);
-    scoreText.fixedToCamera = true;
 
     //Lives Text
-    livesText = game.add.text(game.camera.width / 6, 40, lives + " Leben", {
-        font: "25px Arial",
-        fill: "#ff0044"
-    });
-    livesText.anchor.setTo(0.5, 0.5);
-    livesText.fixedToCamera = true;
+    for(var i = 0; i < lives; i++)
+    {
+        hearts[i] = game.add.sprite(10 + (i * 80), 10, "heart");
+        hearts[i].fixedToCamera = true;
+    }
+
 }
 
 function update() {
@@ -117,15 +114,21 @@ function update() {
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX++;
 
-    if (!player.inCamera) {
-        gameOver(game.time.now);
+    if (!player.inCamera)
+    {
+        game.add.tween(hearts[--lives]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0);
+
+        if(lives <= 0)
+            gameOver(game.time.now);
+        else
+        {
+            player.body.x = cameraPosX + 10;
+            player.body.y = 100;
+        }
     }
 
-    // Update Score
-    scoreText.setText(game.time.now + " Punkte");
-
     // Update Lives
-    livesText.setText(lives + " Leben");
+    //livesText.setText(lives + " Leben");
 
     // Controls
     if (cursors.left.isDown) {
@@ -147,7 +150,8 @@ function update() {
     }
 }
 
-function gameOver(score) {
+function gameOver(score)
+{
     alert("Game Over!");
     if (getCookie('highscore') < score) {
         name = prompt("Neuer Highscore!\nBitte Namen eingeben:", "");
