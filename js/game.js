@@ -12,7 +12,6 @@ function preload() {
     game.load.tilemap('map', 'assets/map.json', null, Phaser.Tilemap.TILED_JSON);
 
     game.load.image('level', 'assets/level.png');
-
     game.load.image('background', 'assets/bg.png');
 
     game.load.atlasJSONHash('character', 'assets/character.png', 'assets/character.json');
