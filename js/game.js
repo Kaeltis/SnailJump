@@ -27,6 +27,8 @@ var vertMove = -180; // jump
 var jumpTimer = 0;
 var cameraPosX;
 var scoreText;
+var lives = 3;
+var livesText;
 
 function create() {
     //Background
@@ -83,6 +85,14 @@ function create() {
     });
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.fixedToCamera = true;
+
+    //Lives Text
+    livesText = game.add.text(game.camera.width / 6, 40, lives + " Leben", {
+        font: "25px Arial",
+        fill: "#ff0044"
+    });
+    livesText.anchor.setTo(0.5, 0.5);
+    livesText.fixedToCamera = true;
 }
 
 function update() {
@@ -102,6 +112,9 @@ function update() {
 
     // Update Score
     scoreText.setText(game.time.now + " Punkte");
+
+    // Update Lives
+    livesText.setText(lives + " Leben");
 
     // Controls
     if (cursors.left.isDown) {
