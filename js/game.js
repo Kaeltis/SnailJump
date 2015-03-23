@@ -20,7 +20,7 @@ function preload() {
     game.load.image("tree", "assets/tree.png");
     game.load.image("heart", "assets/heart.png");
 
-    game.load.atlasJSONHash('character', 'assets/character.png', 'assets/character.json');
+    game.load.image('character', 'assets/Snail.png');
 
     // Sounds
     game.load.audio('backgroundMusic', ['assets/mshanty-town.OGG']);
@@ -69,24 +69,27 @@ function create() {
     layer = map.createLayer('Kachelebene 1');
 
     // Collisions
-    map.setCollisionByExclusion([1, 31]);
+    map.setCollision([5]);
 
     // Resize World
     layer.resizeWorld();
 
     // Player & Animations
-    player = game.add.sprite(150, 5 * 70, 'character', 'p1_walk01.png');
-    player.animations.add('walk', [
-        'p1_walk01.png',
-        'p1_walk02.png',
-        'p1_walk03.png',
-        'p1_walk04.png',
-        'p1_walk05.png',
-        'p1_walk06.png',
-        'p1_walk07.png',
-        'p1_walk08.png',
-        'p1_walk09.png'
-    ], 30, false, false);
+    /*
+     player = game.add.sprite(150, 5 * 70, 'character', 'p1_walk01.png');
+     player.animations.add('walk', [
+     'p1_walk01.png',
+     'p1_walk02.png',
+     'p1_walk03.png',
+     'p1_walk04.png',
+     'p1_walk05.png',
+     'p1_walk06.png',
+     'p1_walk07.png',
+     'p1_walk08.png',
+     'p1_walk09.png'
+     ], 30, false, false);
+     */
+    player = game.add.sprite(150, 5 * 70, 'character');
 
     // Player Physics
     game.physics.enable([player]);
@@ -150,8 +153,7 @@ function update() {
 
         if (lives <= 0)
             gameOver(game.time.now);
-        else
-        {
+        else {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
@@ -165,14 +167,14 @@ function update() {
     // Controls
     if (cursors.left.isDown) {
         player.body.velocity.x = -hozMove * speedMult;
-        player.animations.play('walk', 30);
+        //player.animations.play('walk', 30);
     }
     else if (cursors.right.isDown) {
         player.body.velocity.x = hozMove * speedMult;
-        player.animations.play('walk', 30);
+        //player.animations.play('walk', 30);
     }
     else {
-        player.animations.play('walk', 10);
+        //player.animations.play('walk', 10);
     }
 
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
@@ -182,21 +184,18 @@ function update() {
     }
 }
 
-function render()
-{
+function render() {
     //game.debug.bodyInfo(player, 50, 480, '#ff0044');
     //game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
 }
 
-function gameOver(score)
-{
+function gameOver(score) {
     dieMusic.play();
     gameoverMusic.play();
 
     alert("Game Over!");
 
-    if (getCookie('highscore') < score)
-    {
+    if (getCookie('highscore') < score) {
         name = prompt("Neuer Highscore!\nBitte Namen eingeben:", "");
         setCookie('highscorename', name, 365);
         setCookie('highscore', score, 365);
