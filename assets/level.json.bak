@@ -1,0 +1,60 @@
+{"frames": {
+
+"Block1.png":
+{
+	"frame": {"x":262,"y":2,"w":62,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":62,"h":63},
+	"sourceSize": {"w":64,"h":64}
+},
+"cloud.png":
+{
+	"frame": {"x":132,"y":68,"w":128,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":128,"h":63},
+	"sourceSize": {"w":128,"h":64}
+},
+"heart.png":
+{
+	"frame": {"x":132,"y":133,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+"mushroom.png":
+{
+	"frame": {"x":262,"y":67,"w":62,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":62},
+	"sourceSize": {"w":64,"h":64}
+},
+"tree.png":
+{
+	"frame": {"x":2,"y":2,"w":128,"h":194},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":194},
+	"sourceSize": {"w":128,"h":194}
+},
+"water.png":
+{
+	"frame": {"x":132,"y":2,"w":128,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
+	"sourceSize": {"w":128,"h":64}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "level.png",
+	"format": "RGBA8888",
+	"size": {"w":326,"h":199},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7cd17fd7a91e51d3b5fb61e060654986:57acaab73a746279598df1cb80164725:131701cb6c4e8d84a5be75f0cc65185d$"
+}
+}
