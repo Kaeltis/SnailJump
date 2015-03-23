@@ -31,7 +31,8 @@ function preload() {
 }
 
 var map;
-var layer;
+var layerLevel;
+var layerBackground;
 var player;
 var cursors;
 var jumpButton;
@@ -67,13 +68,14 @@ function create() {
     //Tilemap & Level
     map = game.add.tilemap('map');
     map.addTilesetImage('level');
-    layer = map.createLayer('Kachelebene 1');
+    layerBackground = map.createLayer('BackgroundLayer');
+    layerLevel = map.createLayer('LevelLayer');
 
     // Collisions
-    map.setCollision([5]);
+    map.setCollision([6, 16]);
 
     // Resize World
-    layer.resizeWorld();
+    layerLevel.resizeWorld();
 
     // Player & Animations
     /*
@@ -125,7 +127,7 @@ function create() {
 
 function update() {
     // Check collisions & Move player forward
-    game.physics.arcade.collide(player, layer);
+    game.physics.arcade.collide(player, layerLevel);
     player.body.velocity.x = (hozMove / 4) * speedMult;
     player.body.gravity.y = 300;
 
