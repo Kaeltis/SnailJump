@@ -31,12 +31,7 @@ function preload() {
 }
 
 var map;
-<<<<<<< HEAD
 var layer, layer2;
-=======
-var layerLevel;
-var layerBackground;
->>>>>>> origin/master
 var player;
 var cursors;
 var jumpButton;
@@ -72,39 +67,13 @@ function create() {
     //Tilemap & Level
     map = game.add.tilemap('map');
     map.addTilesetImage('level');
-<<<<<<< HEAD
     layer = map.createLayer('Level');
     layer2 = map.createLayer('BG');
-=======
-    layerBackground = map.createLayer('BackgroundLayer');
-    layerLevel = map.createLayer('LevelLayer');
->>>>>>> origin/master
 
     // Collisions
-    map.setCollision([6, 16]);
+    map.setCollision([5]);
 
-<<<<<<< HEAD
     // Player
-=======
-    // Resize World
-    layerLevel.resizeWorld();
-
-    // Player & Animations
-    /*
-     player = game.add.sprite(150, 5 * 70, 'character', 'p1_walk01.png');
-     player.animations.add('walk', [
-     'p1_walk01.png',
-     'p1_walk02.png',
-     'p1_walk03.png',
-     'p1_walk04.png',
-     'p1_walk05.png',
-     'p1_walk06.png',
-     'p1_walk07.png',
-     'p1_walk08.png',
-     'p1_walk09.png'
-     ], 30, false, false);
-     */
->>>>>>> origin/master
     player = game.add.sprite(150, 5 * 70, 'character');
 
     // Player Physics
