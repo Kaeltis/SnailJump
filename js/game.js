@@ -21,7 +21,6 @@ function preload() {
     game.load.image("heart", "assets/heart.png");
 
     game.load.atlasJSONHash('character', 'assets/character.png', 'assets/character.json');
-    game.load.image('deathwall', 'assets/deathwall.png');
 
     // Sounds
     game.load.audio('backgroundMusic', ['assets/mshanty-town.OGG']);
@@ -38,7 +37,7 @@ var deathwall;
 var cursors;
 var jumpButton;
 var hozMove = 160; // walk
-var vertMove = -220; // jump
+var vertMove = -240; // jump
 var jumpTimer = 0;
 var cameraPosX;
 var score = 0;
@@ -88,11 +87,6 @@ function create() {
         'p1_walk08.png',
         'p1_walk09.png'
     ], 30, false, false);
-
-    // Deathwall
-    deathwall = game.add.sprite(0, 250, 'deathwall');
-    deathwall.fixedToCamera = true;
-    deathwall.anchor.setTo(0.6, 0.5);
 
     // Player Physics
     game.physics.enable([player]);
@@ -191,7 +185,7 @@ function update() {
 function render()
 {
     //game.debug.bodyInfo(player, 50, 480, '#ff0044');
-    game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
+    //game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
 }
 
 function gameOver(score)
