@@ -47,6 +47,8 @@ function create() {
     //Background
     game.stage.backgroundColor = '#FFFFFF';
     game.add.tileSprite(0, 0, 2000, 600, 'background');
+
+    //Music
     backgroundMusic = game.add.audio('backgroundMusic');
     backgroundMusic.play('');
     gameoverMusic = game.add.audio('gameoverMusic');
@@ -124,10 +126,14 @@ function update() {
     player.body.velocity.x = hozMove / 4;
 
     // Update Camera
-    if (game.camera.x <= player.body.x - 600)
+    if (game.camera.x <= player.body.x - 600) {
         cameraPosX += 2.5;
-    else
+        scoreMult = 3;
+    }
+    else {
         cameraPosX += 0.5;
+        scoreMult = 1;
+    }
 
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX;
