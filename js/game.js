@@ -26,6 +26,7 @@ var hozMove = 160; // walk
 var vertMove = -180; // jump
 var jumpTimer = 0;
 var cameraPosX;
+var scoreText;
 
 function create() {
     //Background
@@ -74,6 +75,14 @@ function create() {
     cameraPosX = player.body.x - 150;
     game.camera.x = cameraPosX;
     game.camera.y = player.body.y;
+
+    //Score Text
+    scoreText = game.add.text(game.camera.width / 1.2, 40, "0 Punkte", {
+        font: "25px Arial",
+        fill: "#ff0044"
+    });
+    scoreText.anchor.setTo(0.5, 0.5);
+    scoreText.fixedToCamera = true;
 }
 
 function update() {
@@ -84,7 +93,6 @@ function update() {
     // Update Camera
     if (game.camera.x <= player.body.x - 600)
         cameraPosX += 2;
-
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX++;
 
@@ -92,7 +100,10 @@ function update() {
         gameOver(game.time.now);
     }
 
+    // Update Score
+    scoreText.setText(game.time.now + " Punkte");
 
+    // Controls
     if (cursors.left.isDown) {
         player.body.velocity.x = -hozMove;
         player.animations.play('walk', 30);
