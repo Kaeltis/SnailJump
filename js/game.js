@@ -45,7 +45,6 @@ var score = 0;
 var scoreMult = 1;
 var scoreText;
 var lives = 3;
-var livesText;
 var hearts = [];
 
 function create() {
@@ -117,8 +116,7 @@ function create() {
     scoreText.fixedToCamera = true;
 
     //Lives Text
-    for(var i = 0; i < lives; i++)
-    {
+    for (var i = 0; i < lives; i++) {
         hearts[i] = game.add.sprite(10 + (i * 80), 10, "heart");
         hearts[i].fixedToCamera = true;
     }
@@ -143,35 +141,28 @@ function update() {
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX;
 
-    if(player.body.x >= 2000)
-    {
+    if (player.body.x >= 4300) {
         game.camera.x = cameraPosX = 0;
         player.body.x = 150;
-        player.body.y = 300;
+        player.body.y = 393;
         score += 1000;
     }
 
-    if (!player.inCamera)
-    {
-        game.add.tween(hearts[--lives]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0);
+    if (!player.inCamera) {
+        game.add.tween(hearts[--lives]).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true, 0);
 
-        if(lives <= 0)
+        if (lives <= 0)
             gameOver(game.time.now);
-        else
-        {
+        else {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
     }
 
-    if (game.camera.x < 1300)
-        score += 1 * scoreMult;
+    score += scoreMult;
 
     // Update Score
     scoreText.setText(score + " Punkte");
-
-    // Update Lives
-    //livesText.setText(lives + " Leben");
 
     // Controls
     if (cursors.left.isDown) {
@@ -194,8 +185,6 @@ function update() {
 }
 
 function render() {
-
-    // game.debug.body(p);
     game.debug.bodyInfo(player, 50, 480, '#ff0044');
     game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
 }
