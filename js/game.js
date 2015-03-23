@@ -71,7 +71,7 @@ function create() {
     layer2 = map.createLayer('BG');
 
     // Collisions
-    map.setCollision([5]);
+    map.setCollision([5, 14]);
 
     // Player
     player = game.add.sprite(150, 5 * 70, 'character');
