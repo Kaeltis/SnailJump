@@ -45,9 +45,8 @@ var hozMove = 160; // walk
 var vertMove = -240; // jump
 var jumpTimer = 0;
 var cameraPosX;
-var score = 0;
-var currentscore = 0;
-var scoreMult = 1;
+var highscore = 0;
+var levelscore = 0;
 var scoreText;
 var lives = 3;
 var hearts = [];
@@ -136,15 +135,18 @@ function update() {
     // Update Camera
     if (game.camera.x <= player.body.x - 250) {
         cameraPosX += 2.5 * speedMult;
-        scoreMult = 3;
     }
     else {
         cameraPosX += 0.5 * speedMult;
-        scoreMult = 1;
     }
 
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX;
+
+    // Update Score
+    if (player.body.x / 75 > levelscore)
+        levelscore = parseInt(player.body.x / 75);
+    scoreText.setText(levelscore + highscore + " m");
 
     if (player.body.x >= endPoint) {
         arrivedEnd();
@@ -154,17 +156,12 @@ function update() {
         game.add.tween(hearts[--lives]).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true, 0);
 
         if (lives <= 0)
-            gameOver(game.time.now);
+            gameOver(levelscore + highscore);
         else {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
     }
-
-    score += scoreMult;
-
-    // Update Score
-    scoreText.setText(score + " m");
 
     // Controls
     if (cursors.left.isDown) {
@@ -204,8 +201,10 @@ function arrivedEnd() {
     game.camera.x = cameraPosX = 0;
     player.body.x = 150;
     player.body.y = 350;
-    score += 1000;
     speedMult = speedMult < 2 ? speedMult + 0.2 : speedMult;
+
+    highscore += levelscore;
+    levelscore = 0;
 
     // delete previous map layer
     layer.destroy();
