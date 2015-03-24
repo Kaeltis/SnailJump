@@ -6,11 +6,28 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gamediv',
         render: render
     });
 
+// Vars
+var map, layer, cursors;
+var maps = [], mapCount = 5, hearts = [];
+var player, lives = 3;
+var jumpButton, debugButton, cheatButton, muteButton;
+var debug = false;
+var hozMove = 180; // walk
+var vertMove = -300; // jump
+var jumpTimer = 0, cheatTimer = 0;
+var cameraPosX;
+var highscore = 0, levelscore = 0, scoreText;
+var speedMult = 1;
+var endPoint = 0;
+var mapRotation = 0;
+
 function preload()
 {
     // Level
-    game.load.tilemap('map1', 'assets/map1.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.tilemap('map2', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
+    for(var i = 1; i <= mapCount; i++)
+    {
+        game.load.tilemap('map'+i, 'assets/map'+i+'.json', null, Phaser.Tilemap.TILED_JSON);
+    }
 
     // Graphics
     game.load.image('level', 'assets/level.png');
@@ -29,28 +46,6 @@ function preload()
     game.load.audio('startMusic', ['assets/mgame-start.OGG']);
 }
 
-var map;
-var maps = [];
-var layer, layer2;
-var player;
-var cursors;
-var jumpButton;
-var debugButton;
-var cheatButton;
-var muteButton;
-var debug = false;
-var hozMove = 160; // walk
-var vertMove = -280; // jump
-var jumpTimer = 0;
-var cameraPosX;
-var highscore = 0;
-var levelscore = 0;
-var scoreText;
-var lives = 3;
-var hearts = [];
-var speedMult = 1;
-var endPoint = 0;
-var mapRotation = 0;
 
 function create()
 {
@@ -70,7 +65,7 @@ function create()
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //Tilemap & Level
-    for (var i = 0; i < 2; i++)
+    for (var i = 0; i < mapCount; i++)
     {
         map = game.add.tilemap('map' + (i + 1));
         map.addTilesetImage('level');
@@ -87,7 +82,7 @@ function create()
     // Player Physics
     game.physics.enable([player]);
     player.body.bounce.y = 0.1;
-    player.body.gravity.y = 200;
+    player.body.gravity.y = 400;
 
     // Controls
     cursors = game.input.keyboard.createCursorKeys();
@@ -102,7 +97,7 @@ function create()
     game.camera.y = player.body.y;
 
     // Score Text
-    scoreText = game.add.text(game.camera.width / 1.2, 40, "0 m", {
+    scoreText = game.add.text(game.camera.width / 1.2, 40, "0 Punkte", {
         font: "25px Arial",
         fill: "#ff0044"
     });
@@ -131,7 +126,6 @@ function update()
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
     player.body.velocity.x = (hozMove / 4) * speedMult;
-    player.body.gravity.y = 380;
 
     // Update Camera
     if (game.camera.x <= player.body.x - 250)
@@ -140,54 +134,56 @@ function update()
     }
     else
     {
-        cameraPosX += 0.5 * speedMult;
+        cameraPosX += 0.7 * speedMult;
     }
 
     game.camera.y = player.body.y;
-    game.camera.x = cameraPosX;
+    game.add.tween(game.camera).to({x: cameraPosX}, 200, Phaser.Easing.Linear.None, true, 0);
+    //game.camera.x = cameraPosX;
 
     // Update Score
     if (player.body.x / 75 > levelscore)
         levelscore = parseInt(player.body.x / 75);
+
     scoreText.setText(levelscore + highscore + " Punkte");
 
-    if (player.body.x >= endPoint) {
+    if (player.body.x >= endPoint)
+    {
         arrivedEnd();
     }
 
-    if (!player.inCamera) {
+    if (!player.inCamera && cheatTimer < game.time.now)
+    {
         game.add.tween(hearts[--lives]).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true, 0);
 
         if (lives <= 0)
             gameOver(levelscore + highscore);
-        else {
+        else
+        {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
     }
 
     // Controls
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown)
         player.body.velocity.x = -hozMove * speedMult;
-        //player.animations.play('walk', 30);
-    }
-    else if (cursors.right.isDown) {
+    else if (cursors.right.isDown)
         player.body.velocity.x = hozMove * speedMult;
-    }
-    else {
 
-    }
-
-    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
+    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
+    {
         player.body.velocity.y = vertMove;
         jumpTimer = game.time.now + 400;
         jumpMusic.play();
     }
 
-    if (cheatButton.isDown) {
+    if (cheatButton.isDown)
+    {
         game.camera.x = cameraPosX = game.camera.bounds.width - game.camera.screenView.width;
         player.body.x = endPoint - 100;
         player.body.y = 390;
+        cheatTimer = game.time.now + 300;
     }
 
     if (debugButton.isDown) {
@@ -224,11 +220,18 @@ function arrivedEnd() {
     else
         endPoint = parseInt(map.properties.MapWidth);
 
+    staticItems();
+}
+
+function staticItems()
+{
+    player.bringToTop();
+    scoreText.parent.bringToTop(scoreText);
+
     // hearts
-    for (var i = 0; i < lives; i++) {
-        hearts[i].destroy();
-        hearts[i] = game.add.sprite(10 + (i * 80), 10, "heart");
-        hearts[i].fixedToCamera = true;
+    for (var i = 0; i < lives; i++)
+    {
+        hearts[i].bringToTop();
     }
 }
 
