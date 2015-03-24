@@ -14,8 +14,116 @@
          "width":64,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":10,
+         "name":"Points",
+         "objects":[
+                {
+                 "gid":19,
+                 "height":0,
+                 "id":1,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":592,
+                 "y":576
+                }, 
+                {
+                 "gid":17,
+                 "height":0,
+                 "id":2,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":556,
+                 "y":577
+                }, 
+                {
+                 "gid":16,
+                 "height":0,
+                 "id":3,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":523,
+                 "y":577
+                }, 
+                {
+                 "gid":18,
+                 "height":0,
+                 "id":4,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":290,
+                 "y":572
+                }, 
+                {
+                 "gid":18,
+                 "height":0,
+                 "id":5,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":767,
+                 "y":512
+                }, 
+                {
+                 "gid":18,
+                 "height":0,
+                 "id":6,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":786,
+                 "y":509
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":64,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "properties":
     {
@@ -38,6 +146,37 @@
          "spacing":1,
          "tileheight":64,
          "tilewidth":64
+        }, 
+        {
+         "firstgid":16,
+         "margin":0,
+         "name":"PunkteObjekte",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tiles":
+            {
+             "0":
+                {
+                 "image":"apple_32.png"
+                },
+             "1":
+                {
+                 "image":"grape_32.png"
+                },
+             "2":
+                {
+                 "image":"strawberry_32.png"
+                },
+             "3":
+                {
+                 "image":"worm_32.png"
+                }
+            },
+         "tilewidth":32
         }],
  "tilewidth":64,
  "version":1,
