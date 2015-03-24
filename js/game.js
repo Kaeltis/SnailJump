@@ -9,9 +9,11 @@ var game = new Phaser.Game(
         render: render
     });
 
-function preload() {
+function preload()
+{
     // Level
-    game.load.tilemap('map', 'assets/map.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map1', 'assets/map1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map2', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Graphics
     game.load.image('level', 'assets/level.png');
@@ -31,11 +33,13 @@ function preload() {
 }
 
 var map;
+var maps = [];
 var layer, layer2;
 var player;
 var cursors;
 var jumpButton;
 var debugButton;
+var cheatButton;
 var debug = false;
 var hozMove = 160; // walk
 var vertMove = -240; // jump
@@ -47,6 +51,8 @@ var scoreText;
 var lives = 3;
 var hearts = [];
 var speedMult = 1;
+var endPoint = 0;
+var mapRotation = 0;
 
 function create() {
     //Background
@@ -65,13 +71,16 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //Tilemap & Level
-    map = game.add.tilemap('map');
-    map.addTilesetImage('level');
-    layer = map.createLayer('Level');
-    layer2 = map.createLayer('BG');
+    for(var i = 0; i < 2; i++)
+    {
+        map = game.add.tilemap('map'+(i+1));
+        map.addTilesetImage('level');
+        map.setCollision([5, 14]); // Collisions
+        maps.push(map); // loaded maps
+    }
 
-    // Collisions
-    map.setCollision([5]);
+    map = maps[mapRotation];
+    layer = maps[mapRotation].createLayer('Level');
 
     // Player
     player = game.add.sprite(150, 5 * 70, 'character');
@@ -84,6 +93,7 @@ function create() {
     // Controls
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    cheatButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
     debugButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
 
     // Set Camera
@@ -99,7 +109,7 @@ function create() {
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.fixedToCamera = true;
 
-    //Lives Text
+    //Lives
     for (var i = 0; i < lives; i++) {
         hearts[i] = game.add.sprite(10 + (i * 80), 10, "heart");
         hearts[i].fixedToCamera = true;
@@ -107,6 +117,12 @@ function create() {
 
     // Resize World
     layer.resizeWorld();
+
+    // Set end of map
+    if(map.properties.MapWidth === undefined)
+        endPoint = map.widthInPixels - player.body.width * 2;
+    else
+        endPoint = parseInt(map.properties.MapWidth);
 
 }
 
@@ -121,7 +137,8 @@ function update() {
         cameraPosX += 2.5 * speedMult;
         scoreMult = 3;
     }
-    else {
+    else
+    {
         cameraPosX += 0.5 * speedMult;
         scoreMult = 1;
     }
@@ -129,20 +146,19 @@ function update() {
     game.camera.y = player.body.y;
     game.camera.x = cameraPosX;
 
-    if (player.body.x >= 3950) {
-        game.camera.x = cameraPosX = 0;
-        player.body.x = 150;
-        player.body.y = 393;
-        score += 1000;
-        speedMult = speedMult < 2 ? speedMult + 0.2 : speedMult;
+    if (player.body.x >= endPoint)
+    {
+        arrivedEnd();
     }
 
-    if (!player.inCamera) {
+    if (!player.inCamera)
+    {
         game.add.tween(hearts[--lives]).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true, 0);
 
         if (lives <= 0)
             gameOver(game.time.now);
-        else {
+        else
+        {
             player.body.x = cameraPosX + 10;
             player.body.y = 100;
         }
@@ -154,26 +170,70 @@ function update() {
     scoreText.setText(score + " Punkte");
 
     // Controls
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown)
+    {
         player.body.velocity.x = -hozMove * speedMult;
         //player.animations.play('walk', 30);
     }
-    else if (cursors.right.isDown) {
+    else if (cursors.right.isDown)
+    {
         player.body.velocity.x = hozMove * speedMult;
-        //player.animations.play('walk', 30);
     }
-    else {
-        //player.animations.play('walk', 10);
+    else
+    {
+
     }
 
-    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
+    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
+    {
         player.body.velocity.y = vertMove;
         jumpTimer = game.time.now + 400;
         jumpMusic.play();
     }
 
-    if (debugButton.isDown) {
+    if(cheatButton.isDown)
+    {
+        game.camera.x = cameraPosX = game.camera.bounds.width - game.camera.screenView.width;
+        player.body.x = endPoint - 100;
+        player.body.y = 390;
+    }
+
+    if (debugButton.isDown)
+    {
         debug = true;
+    }
+}
+
+function arrivedEnd()
+{
+    // reset camera and other values
+    game.camera.x = cameraPosX = 0;
+    player.body.x = 150;
+    player.body.y = 350;
+    score += 1000;
+    speedMult = speedMult < 2 ? speedMult + 0.2 : speedMult;
+
+    // delete previous map layer
+    layer.destroy();
+
+    // random map rotation
+    mapRotation = ~~((Math.random() * 100) % maps.length);
+    map = maps[mapRotation];
+    layer = map.createLayer("Level");
+    layer.resizeWorld();
+
+    // Set end of new map
+    if(map.properties.MapWidth === undefined)
+        endPoint = map.widthInPixels - player.body.width * 2;
+    else
+        endPoint = parseInt(map.properties.MapWidth);
+
+    // hearts
+    for (var i = 0; i < lives; i++)
+    {
+        hearts[i].destroy();
+        hearts[i] = game.add.sprite(10 + (i * 80), 10, "heart");
+        hearts[i].fixedToCamera = true;
     }
 }
 
