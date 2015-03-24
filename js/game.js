@@ -79,13 +79,8 @@ function create() {
         maps.push(map); // loaded maps
     }
 
-<<<<<<< HEAD
     map = maps[mapRotation];
     layer = maps[mapRotation].createLayer('Level');
-=======
-    // Collisions
-    map.setCollision([5, 14]);
->>>>>>> origin/master
 
     // Player
     player = game.add.sprite(150, 5 * 70, 'character');
