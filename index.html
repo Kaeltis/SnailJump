@@ -5,31 +5,43 @@
     <meta name="viewport" content="width=device-width">
     <title>SnailJump</title>
 
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/darkly/bootstrap.min.css" rel="stylesheet">
+    <link href="css/cover.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('assets/pagebg.png');
+        }
+    </style>
     <script src="js/phaser.js"></script>
     <!--<script src="js/phaser.min.js"></script>-->
 </head>
 
 <body>
-<div id="start">
+<div class="container">
     <div>
         <h1>SnailJump</h1>
         <h4>Erkl&auml;rung und Steuerung</h4>
         <br>
 
-        <p>Tasten:</p>
+        <h2>Tasten:</h2>
 
-        <p>- Links/Rechts: Bewegt den Charakter nach links und rechts</p>
+        <ul>
+            <li><strong>Links/Rechts</strong>: Bewegt den Charakter nach links und rechts</li>
+            <li><strong>Leertaste</strong>: Sprung des Charakters</li>
+            <li><strong>M</strong>: Sound deaktivieren</li>
+        </ul>
 
-        <p>- Leertaste: Sprung des Charakters</p>
         <br>
 
-        <strong>Aktueller Highscore: <span id="name"></span> - <span id="points"></span> Punkte</strong>
+        <strong>Aktueller Highscore: <span id="name">N/A</span> - <span id="points">0</span> Meter</strong>
         <br>
         <br>
     </div>
-</div>
-<div id="gamediv"></div>
 
+    <div id="gamediv"></div>
+</div>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="js/highscore.js"></script>
 <script src="js/game.js"></script>
 </body>
