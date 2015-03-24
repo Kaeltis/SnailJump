@@ -7,7 +7,7 @@
          "opacity":1,
          "properties":
             {
-             "MaxWidth":"3950"
+
             },
          "type":"tilelayer",
          "visible":true,
@@ -19,7 +19,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "MapWidth":"3950"
+
     },
  "renderorder":"right-down",
  "tileheight":64,

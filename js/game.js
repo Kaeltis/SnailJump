@@ -1,7 +1,4 @@
-var game = new Phaser.Game(
-    800, 600,
-    Phaser.AUTO,
-    'gamediv',
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gamediv',
     {
         preload: preload,
         create: create,
@@ -9,7 +6,8 @@ var game = new Phaser.Game(
         render: render
     });
 
-function preload() {
+function preload()
+{
     // Level
     game.load.tilemap('map1', 'assets/map1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('map2', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -42,7 +40,7 @@ var cheatButton;
 var muteButton;
 var debug = false;
 var hozMove = 160; // walk
-var vertMove = -240; // jump
+var vertMove = -280; // jump
 var jumpTimer = 0;
 var cameraPosX;
 var highscore = 0;
@@ -54,7 +52,8 @@ var speedMult = 1;
 var endPoint = 0;
 var mapRotation = 0;
 
-function create() {
+function create()
+{
     //Background
     game.stage.backgroundColor = '#FFFFFF';
     game.add.tileSprite(0, 0, 10000, 600, 'background');
@@ -71,7 +70,8 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //Tilemap & Level
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 2; i++)
+    {
         map = game.add.tilemap('map' + (i + 1));
         map.addTilesetImage('level');
         map.setCollision([5, 14]); // Collisions
@@ -87,7 +87,7 @@ function create() {
     // Player Physics
     game.physics.enable([player]);
     player.body.bounce.y = 0.1;
-    player.body.gravity.y = 160;
+    player.body.gravity.y = 200;
 
     // Controls
     cursors = game.input.keyboard.createCursorKeys();
@@ -126,17 +126,20 @@ function create() {
 
 }
 
-function update() {
+function update()
+{
     // Check collisions & Move player forward
     game.physics.arcade.collide(player, layer);
     player.body.velocity.x = (hozMove / 4) * speedMult;
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 380;
 
     // Update Camera
-    if (game.camera.x <= player.body.x - 250) {
+    if (game.camera.x <= player.body.x - 250)
+    {
         cameraPosX += 2.5 * speedMult;
     }
-    else {
+    else
+    {
         cameraPosX += 0.5 * speedMult;
     }
 
@@ -146,7 +149,7 @@ function update() {
     // Update Score
     if (player.body.x / 75 > levelscore)
         levelscore = parseInt(player.body.x / 75);
-    scoreText.setText(levelscore + highscore + " m");
+    scoreText.setText(levelscore + highscore + " Punkte");
 
     if (player.body.x >= endPoint) {
         arrivedEnd();
@@ -203,7 +206,7 @@ function arrivedEnd() {
     player.body.y = 350;
     speedMult = speedMult < 2 ? speedMult + 0.2 : speedMult;
 
-    highscore += levelscore;
+    highscore += levelscore + 100;
     levelscore = 0;
 
     // delete previous map layer
