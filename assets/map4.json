@@ -46,6 +46,37 @@
          "spacing":1,
          "tileheight":64,
          "tilewidth":64
+        }, 
+        {
+         "firstgid":16,
+         "margin":0,
+         "name":"PunkteObjekte",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tiles":
+            {
+             "0":
+                {
+                 "image":"apple_32.png"
+                },
+             "1":
+                {
+                 "image":"grape_32.png"
+                },
+             "2":
+                {
+                 "image":"strawberry_32.png"
+                },
+             "3":
+                {
+                 "image":"worm_32.png"
+                }
+            },
+         "tilewidth":32
         }],
  "tilewidth":64,
  "version":1,

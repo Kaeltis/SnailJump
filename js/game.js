@@ -11,7 +11,7 @@ var map, layer, cursors, objects, objectGroup;
 var maps = [], mapCount = 5, hearts = [];
 var player, lives = 3;
 var jumpButton, debugButton, cheatButton, muteButton;
-var coinSound;
+var coinSound, muted = false;
 var debug = false;
 var hozMove = 180; // walk
 var vertMove = -300; // jump
@@ -242,9 +242,12 @@ function update()
     {
         debug = true;
     }
-    else if (muteButton.isDown)
+    else if (game.time.now > buttonTimer && muteButton.isDown)
     {
-        game.sound.setMute();
+        if(!muted)
+            game.sound.setMute();
+        else
+            game.sound.unsetMute();
     }
 }
 
@@ -323,8 +326,10 @@ function staticItems()
     }
 }
 
-function render() {
-    if (debug) {
+function render()
+{
+    if (debug)
+    {
         game.debug.bodyInfo(player, 50, 480, '#ff0044');
         game.debug.cameraInfo(game.camera, 200, 100, '#ff0044');
     }
@@ -333,6 +338,10 @@ function render() {
 function gameOver(score) {
     dieMusic.play();
     gameoverMusic.play();
+    layer.destroy();
+    objectGroup.destroy(true);
+    hearts[0].destroy();
+    game.sound.setMute();
 
     alert("Game Over!");
 
@@ -342,7 +351,6 @@ function gameOver(score) {
         setCookie('highscore', score, 365);
     }
 
-    layer.destroy();
     //location.reload();
 }
 
