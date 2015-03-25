@@ -163,7 +163,7 @@ function collisionHandler(player, pointObject)
 {
     coinSound.play();
     pointObject.kill();
-    levelscore += 20;
+    highscore += 20;
 }
 
 function update()
